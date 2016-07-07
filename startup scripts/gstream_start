@@ -1,0 +1,14 @@
+#!/bin/bash
+# /etc/init.d/gstream_start
+
+### BEGIN INIT INFO
+# Provides:          gstream_start
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: script to start a program at boot
+# Description:       RPi_stream_start
+### END INIT INFO
+
+gst-launch-1.0 v4l2src device=/dev/video0 norm=PAL ! videoconvert ! omxh264enc target-bitrate=2000000 control-rate=variable-skip-frames ! h264parse ! rtph264pay config-interval=1 pt=96  ! udpsink host=127.0.0.1 port=8004
